@@ -20,6 +20,8 @@ ConfigureGraphics::ConfigureGraphics(QWidget* parent)
     ui->frame_limit->setEnabled(Settings::values.use_frame_limit);
     connect(ui->toggle_frame_limit, &QCheckBox::stateChanged, ui->frame_limit,
             &QSpinBox::setEnabled);
+    ui->AddTicks->setEnabled(Settings::values.FMV_hack);
+    connect(ui->FMV_hack, &QCheckBox::stateChanged, ui->AddTicks, &QSpinBox::setEnabled);
 
     ui->layoutBox->setEnabled(!Settings::values.custom_layout);
 
@@ -74,6 +76,8 @@ void ConfigureGraphics::setConfiguration() {
     pixmap.fill(bg_color);
     const QIcon color_icon(pixmap);
     ui->bg_button->setIcon(color_icon);
+    ui->FMV_hack->setChecked(Settings::values.FMV_hack);
+    ui->AddTicks->setValue(Settings::values.AddTicks);
 }
 
 void ConfigureGraphics::applyConfiguration() {
@@ -91,6 +95,8 @@ void ConfigureGraphics::applyConfiguration() {
     Settings::values.layout_option =
         static_cast<Settings::LayoutOption>(ui->layout_combobox->currentIndex());
     Settings::values.swap_screen = ui->swap_screen->isChecked();
+    Settings::values.FMV_hack = ui->FMV_hack->isChecked();
+    Settings::values.AddTicks = ui->AddTicks->value();
     Settings::values.bg_red = static_cast<float>(bg_color.redF());
     Settings::values.bg_green = static_cast<float>(bg_color.greenF());
     Settings::values.bg_blue = static_cast<float>(bg_color.blueF());
