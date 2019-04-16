@@ -15,6 +15,7 @@ ConfigureGeneral::ConfigureGeneral(QWidget* parent)
     ui->setupUi(this);
     this->setConfiguration();
 
+    ui->toggle_use_priority_boost->setEnabled(!Core::System::GetInstance().IsPoweredOn());
     ui->updateBox->setVisible(UISettings::values.updater_found);
     connect(ui->button_reset_defaults, &QPushButton::clicked, this,
             &ConfigureGeneral::ResetDefaults);
@@ -26,6 +27,7 @@ void ConfigureGeneral::setConfiguration() {
     ui->toggle_check_exit->setChecked(UISettings::values.confirm_before_closing);
 
     ui->toggle_update_check->setChecked(UISettings::values.check_for_update_on_start);
+    ui->toggle_use_priority_boost->setChecked(Settings::values.use_priority_boost);
     ui->toggle_auto_update->setChecked(UISettings::values.update_on_close);
 
     // The first item is "auto-select" with actual value -1, so plus one here will do the trick
@@ -52,6 +54,7 @@ void ConfigureGeneral::applyConfiguration() {
     UISettings::values.update_on_close = ui->toggle_auto_update->isChecked();
 
     Settings::values.region_value = ui->region_combobox->currentIndex() - 1;
+    Settings::values.use_priority_boost = ui->toggle_use_priority_boost->isChecked();
 }
 
 void ConfigureGeneral::retranslateUi() {
