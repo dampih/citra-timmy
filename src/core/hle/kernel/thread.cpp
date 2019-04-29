@@ -89,13 +89,13 @@ void ThreadManager::PriorityBoostStarvedThreads() {
         // on hardware. However, this is almost certainly not perfect, and the real CTR OS scheduler
         // should probably be reversed to verify this.
 
-        static constexpr u64 IPCDelayNanoseconds = 10000000;
+        static constexpr u64 IPCDelayNanoseconds = 1400000;
         // Boost threads that have been ready for > this long
 
         u64 delta = current_ticks - thread->last_running_ticks;
 
         if (thread->status == ThreadStatus::Ready && delta > IPCDelayNanoseconds) {
-            const s32 priority = std::max(ready_queue.get_first()->current_priority - 0, 1u);
+            const s32 priority = std::max(ready_queue.get_first()->current_priority - 0, 40u);
             thread->BoostPriority(priority);
         }
     }
