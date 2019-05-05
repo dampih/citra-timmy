@@ -455,11 +455,12 @@ bool ThreadManager::HaveReadyThreads() {
 }
 
 void ThreadManager::Reschedule() {
-    Thread* cur = GetCurrentThread();
-    Thread* next = PopNextReadyThread();
     if (Settings::values.use_priority_boost) {
         PriorityBoostStarvedThreads();
     }
+
+    Thread* cur = GetCurrentThread();
+    Thread* next = PopNextReadyThread();
 
     if (cur && next) {
         LOG_TRACE(Kernel, "context switch {} -> {}", cur->GetObjectId(), next->GetObjectId());
